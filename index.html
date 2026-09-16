@@ -1,105 +1,1005 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>NΞNGI — Chief Nengi’s corner of the internet</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
-:root{--bg:#f5f5f2;--ink:#101010;--muted:#6d6d68;--line:#d8d8d2;--card:#fff}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
-button,input{font:inherit}.wrap{max-width:1100px;margin:auto;padding:24px}
-.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:10px 0 18px}
-.logo{font-size:28px;font-weight:900;letter-spacing:-1px}.tag{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted)}
-.hero{min-height:76vh;display:grid;place-items:center;text-align:center;padding:80px 0}
-.hero h1{font-size:clamp(58px,15vw,150px);line-height:.82;margin:0;font-weight:950;letter-spacing:-7px}
-.hero p{font-size:clamp(16px,2.5vw,24px);margin:28px 0 34px}
-.btn{display:inline-block;border:1px solid var(--ink);background:var(--ink);color:white;padding:15px 23px;text-decoration:none;text-transform:uppercase;letter-spacing:1px;font-weight:800;cursor:pointer}
-.section{padding:80px 0;border-top:1px solid var(--line)}.kicker{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:800}
-h2{font-size:clamp(36px,7vw,72px);margin:10px 0 35px;letter-spacing:-3px;line-height:.95}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.card{background:var(--card);border:1px solid var(--line);padding:25px;min-height:150px;text-decoration:none;color:inherit;display:flex;flex-direction:column;justify-content:space-between}.card:hover{transform:translateY(-2px)}.num{font-size:11px;color:var(--muted);letter-spacing:1px}.card h3{font-size:25px;margin:20px 0 4px}.card p{color:var(--muted);margin:0}
-.now{background:var(--ink);color:white;padding:28px}.nowgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:25px;background:#444}.nowitem{background:var(--ink);padding:18px}.nowitem small{display:block;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:7px}.nowitem strong{font-size:18px}
-form{max-width:560px}.field{margin:18px 0}.field label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-weight:800;margin-bottom:8px}.field input{width:100%;border:1px solid var(--line);background:white;padding:15px}.check{font-size:12px;color:var(--muted);display:flex;gap:9px;line-height:1.4;margin:18px 0}
-.hidden{display:none}.welcome{padding:70px 0;text-align:center}.welcome h2{margin-bottom:15px}
-footer{padding:50px 0;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;border-top:1px solid var(--line)}
-@media(max-width:650px){.wrap{padding:18px}.hero{min-height:72vh}.hero h1{letter-spacing:-4px}.grid{grid-template-columns:1fr}.nowgrid{grid-template-columns:1fr}.section{padding:55px 0}footer{display:block}footer div+div{margin-top:10px}}
+:root{
+  --bg:#f5f5f2;
+  --ink:#101010;
+  --muted:#70706b;
+  --line:#d7d7d1;
+  --card:#ffffff;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+button,input,textarea{
+  font:inherit;
+}
+
+.wrap{
+  max-width:1100px;
+  margin:auto;
+  padding:24px;
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid var(--line);
+  padding:10px 0 18px;
+}
+
+.logo{
+  font-size:28px;
+  font-weight:950;
+  letter-spacing:-1px;
+}
+
+.tag{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  color:var(--muted);
+}
+
+.hero{
+  min-height:72vh;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  padding:70px 0;
+}
+
+.hero h1{
+  font-size:clamp(64px,16vw,155px);
+  line-height:.8;
+  margin:0;
+  font-weight:950;
+  letter-spacing:-7px;
+}
+
+.hero p{
+  font-size:clamp(16px,2.5vw,24px);
+  margin:28px 0 34px;
+}
+
+.btn{
+  display:inline-block;
+  border:1px solid var(--ink);
+  background:var(--ink);
+  color:white;
+  padding:15px 23px;
+  text-decoration:none;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.section{
+  padding:75px 0;
+  border-top:1px solid var(--line);
+}
+
+.kicker{
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--muted);
+  font-weight:800;
+}
+
+h2{
+  font-size:clamp(38px,7vw,72px);
+  margin:10px 0 32px;
+  letter-spacing:-3px;
+  line-height:.95;
+}
+
+.now{
+  background:var(--ink);
+  color:white;
+  padding:28px;
+}
+
+.now h2{
+  color:white;
+}
+
+.nowgrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:#444;
+}
+
+.nowitem{
+  background:var(--ink);
+  padding:18px;
+}
+
+.nowitem small{
+  display:block;
+  color:#aaa;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-bottom:7px;
+}
+
+.nowitem strong{
+  font-size:18px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  padding:25px;
+  min-height:150px;
+  text-decoration:none;
+  color:inherit;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.card h3{
+  font-size:25px;
+  margin:20px 0 4px;
+}
+
+.card p{
+  color:var(--muted);
+  margin:0;
+}
+
+.num{
+  font-size:11px;
+  color:var(--muted);
+}
+
+form{
+  max-width:600px;
+}
+
+.field{
+  margin:18px 0;
+}
+
+.field label{
+  display:block;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  font-weight:800;
+  margin-bottom:8px;
+}
+
+.field input,
+.field textarea{
+  width:100%;
+  border:1px solid var(--line);
+  background:white;
+  padding:15px;
+}
+
+.field textarea{
+  min-height:150px;
+  resize:vertical;
+}
+
+.check{
+  font-size:12px;
+  color:var(--muted);
+  display:flex;
+  gap:9px;
+  line-height:1.4;
+  margin:18px 0;
+}
+
+.notice{
+  margin-top:15px;
+  padding:13px;
+  border:1px solid var(--line);
+  background:white;
+  font-size:13px;
+  display:none;
+}
+
+.success{
+  border-color:#aaa;
+}
+
+.error{
+  border-color:#999;
+}
+
+.hidden{
+  display:none;
+}
+
+.welcome{
+  padding:70px 0;
+  text-align:center;
+}
+
+.welcome h2{
+  margin-bottom:15px;
+}
+
+footer{
+  padding:50px 0;
+  color:var(--muted);
+  font-size:12px;
+  display:flex;
+  justify-content:space-between;
+  border-top:1px solid var(--line);
+}
+
+@media(max-width:650px){
+
+  .wrap{
+    padding:18px;
+  }
+
+  .hero h1{
+    letter-spacing:-4px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .nowgrid{
+    grid-template-columns:1fr;
+  }
+
+  footer{
+    display:block;
+  }
+
+  footer div+div{
+    margin-top:10px;
+  }
+}
 </style>
 </head>
-<body>
-<div class="wrap">
-<header class="top"><div class="logo">NΞNGI</div><div class="tag">Private / Public / Personal</div></header>
 
-<main>
-<section class="hero" id="entrance">
+<body>
+
+<div class="wrap">
+
+<header class="top">
+  <div class="logo">NΞNGI</div>
+  <div class="tag">Private / Public / Personal</div>
+</header>
+
+<section class="hero">
+
   <div>
+
     <div class="kicker">Welcome</div>
+
     <h1>NΞNGI</h1>
-    <p>Chief Nengi’s corner of the internet.</p>
-    <a class="btn" href="#join">Enter NΞNGI →</a>
+
+    <p>
+      Chief Nengi’s corner of the internet.
+    </p>
+
+    <a class="btn" href="#join">
+      Enter NΞNGI →
+    </a>
+
   </div>
+
 </section>
+
 
 <section class="section" id="join">
-  <div class="kicker">Before you come in</div>
-  <h2>Who are you?</h2>
-  <p style="max-width:560px;color:var(--muted)">Tell me who’s visiting. Your email is optional and is only requested if you want to be contacted about NΞNGI updates.</p>
-  <form id="visitorForm">
-    <div class="field"><label for="name">Your name</label><input id="name" required placeholder="Enter your name"></div>
-    <div class="field"><label for="email">Your email <span style="font-weight:400;color:#888">(optional)</span></label><input id="email" type="email" placeholder="you@example.com"></div>
-    <label class="check"><input id="consent" type="checkbox"> I’m okay with Nengi keeping these details for website purposes.</label>
-    <button class="btn" type="submit">Enter NΞNGI →</button>
-  </form>
-</section>
 
-<section class="welcome hidden" id="welcome">
-  <div class="kicker">Access granted</div><h2>Welcome, <span id="visitorName"></span>.</h2>
-  <p style="color:var(--muted);font-size:18px">You’ve officially entered Chief Nengi’s corner of the internet.</p>
-  <a class="btn" href="#home">Continue →</a>
-</section>
-
-<section class="section" id="home">
-  <div class="kicker">NΞNGI right now</div>
-  <div class="now">
-    <h2 style="color:white;margin:8px 0">CURRENTLY ONLINE.</h2>
-    <div class="nowgrid">
-      <div class="nowitem"><small>Status</small><strong>Online</strong></div>
-      <div class="nowitem"><small>Currently</small><strong>Building NΞNGI</strong></div>
-      <div class="nowitem"><small>Last updated</small><strong>15.09.26</strong></div>
-    </div>
+  <div class="kicker">
+    Before you come in
   </div>
+
+  <h2>
+    Who are you?
+  </h2>
+
+  <p style="max-width:600px;color:var(--muted)">
+    Tell me who's visiting. Your email is optional.
+    If you provide it, it is saved with your visitor registration.
+  </p>
+
+  <form id="visitorForm">
+
+    <div class="field">
+
+      <label for="name">
+        Your name
+      </label>
+
+      <input
+        id="name"
+        required
+        maxlength="100"
+        placeholder="Enter your name"
+      >
+
+    </div>
+
+    <div class="field">
+
+      <label for="email">
+        Your email
+        <span style="font-weight:400;color:#888">
+          (optional)
+        </span>
+      </label>
+
+      <input
+        id="email"
+        type="email"
+        maxlength="200"
+        placeholder="you@example.com"
+      >
+
+    </div>
+
+    <label class="check">
+
+      <input
+        id="consent"
+        type="checkbox"
+        required
+      >
+
+      I’m okay with Nengi keeping these details for website purposes.
+
+    </label>
+
+    <button
+      class="btn"
+      type="submit"
+    >
+      Enter NΞNGI →
+    </button>
+
+    <div
+      class="notice"
+      id="visitorNotice"
+    ></div>
+
+  </form>
+
 </section>
+
+
+<section
+  class="welcome hidden"
+  id="welcome"
+>
+
+  <div class="kicker">
+    Access granted
+  </div>
+
+  <h2>
+    Welcome,
+    <span id="visitorName"></span>.
+  </h2>
+
+  <p style="color:var(--muted);font-size:18px">
+    You’ve officially entered Chief Nengi’s corner of the internet.
+  </p>
+
+  <a
+    class="btn"
+    href="#home"
+  >
+    Continue →
+  </a>
+
+</section>
+
+
+<section
+  class="section"
+  id="home"
+>
+
+  <div class="kicker">
+    NΞNGI right now
+  </div>
+
+  <div class="now">
+
+    <h2>
+      CURRENTLY ONLINE.
+    </h2>
+
+    <div class="nowgrid">
+
+      <div class="nowitem">
+
+        <small>
+          Status
+        </small>
+
+        <strong>
+          Online
+        </strong>
+
+      </div>
+
+      <div class="nowitem">
+
+        <small>
+          Currently
+        </small>
+
+        <strong>
+          Building NΞNGI
+        </strong>
+
+      </div>
+
+      <div class="nowitem">
+
+        <small>
+          Last updated
+        </small>
+
+        <strong>
+          15.09.26
+        </strong>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
 
 <section class="section">
-  <div class="kicker">Explore</div><h2>Inside NΞNGI.</h2>
-  <div class="grid">
-    <a class="card" href="#updates"><span class="num">01</span><div><h3>What’s happening</h3><p>Live updates from Nengi.</p></div></a>
-    <a class="card" href="#anonymous"><span class="num">02</span><div><h3>Anonymous</h3><p>Say what you want. No name attached.</p></div></a>
-    <a class="card" href="#says"><span class="num">03</span><div><h3>Nengi says</h3><p>Thoughts, motivation, opinions & random brain activity.</p></div></a>
-    <a class="card" href="#about"><span class="num">04</span><div><h3>About Nengi</h3><p>Get to know the person behind NΞNGI.</p></div></a>
-    <a class="card" href="#archive"><span class="num">05</span><div><h3>Archive</h3><p>A record of moments, updates & eras.</p></div></a>
-    <a class="card" href="#work"><span class="num">06</span><div><h3>My work</h3><p>Things I’ve created, built or contributed to.</p></div></a>
+
+  <div class="kicker">
+    Explore
   </div>
+
+  <h2>
+    Inside NΞNGI.
+  </h2>
+
+  <div class="grid">
+
+    <a
+      class="card"
+      href="#updates"
+    >
+
+      <span class="num">
+        01
+      </span>
+
+      <div>
+
+        <h3>
+          What’s happening
+        </h3>
+
+        <p>
+          Live updates from Nengi.
+        </p>
+
+      </div>
+
+    </a>
+
+
+    <a
+      class="card"
+      href="#anonymous"
+    >
+
+      <span class="num">
+        02
+      </span>
+
+      <div>
+
+        <h3>
+          Anonymous
+        </h3>
+
+        <p>
+          Say what you want. No name attached.
+        </p>
+
+      </div>
+
+    </a>
+
+
+    <a
+      class="card"
+      href="#says"
+    >
+
+      <span class="num">
+        03
+      </span>
+
+      <div>
+
+        <h3>
+          Nengi says
+        </h3>
+
+        <p>
+          Thoughts, motivation, opinions & random brain activity.
+        </p>
+
+      </div>
+
+    </a>
+
+
+    <a
+      class="card"
+      href="#about"
+    >
+
+      <span class="num">
+        04
+      </span>
+
+      <div>
+
+        <h3>
+          About Nengi
+        </h3>
+
+        <p>
+          Get to know the person behind NΞNGI.
+        </p>
+
+      </div>
+
+    </a>
+
+
+    <a
+      class="card"
+      href="#archive"
+    >
+
+      <span class="num">
+        05
+      </span>
+
+      <div>
+
+        <h3>
+          Archive
+        </h3>
+
+        <p>
+          A record of moments, updates & eras.
+        </p>
+
+      </div>
+
+    </a>
+
+
+    <a
+      class="card"
+      href="#work"
+    >
+
+      <span class="num">
+        06
+      </span>
+
+      <div>
+
+        <h3>
+          My work
+        </h3>
+
+        <p>
+          Things I’ve created, built or contributed to.
+        </p>
+
+      </div>
+
+    </a>
+
+  </div>
+
 </section>
 
-<section class="section" id="updates"><div class="kicker">01 — What’s happening</div><h2>Live updates.</h2><p>School, work, projects, plans, wins, random life updates — this is where Nengi keeps the internet posted.</p></section>
-<section class="section" id="anonymous"><div class="kicker">02 — Anonymously</div><h2>Say it.</h2><p>No names. No pressure. Just words.</p><a class="btn" href="https://forms.google.com/" target="_blank">Send anonymously →</a></section>
-<section class="section" id="says"><div class="kicker">03 — Nengi says</div><h2>Still becoming.</h2><p>Thoughts, motivation, lessons, hot takes and whatever happens to be occupying Nengi’s mind.</p></section>
-<section class="section" id="about"><div class="kicker">04 — About</div><h2>The person behind NΞNGI.</h2><p>This page will hold Nengi’s story, interests, current era, favourites and the little things that make her, her.</p></section>
-<section class="section" id="archive"><div class="kicker">05 — Archive</div><h2>Nothing disappears.</h2><p>Past updates, milestones, thoughts and eras — kept here so future Nengi can look back.</p></section>
-<section class="section" id="work"><div class="kicker">06 — My work</div><h2>Things I’ve made.</h2><p>Designs, creative projects, ideas and work worth keeping.</p></section>
-</main>
 
-<footer><div>NΞNGI — Chief Nengi’s corner of the internet.</div><div>Still becoming.</div></footer>
+<section
+  class="section"
+  id="updates"
+>
+
+  <div class="kicker">
+    01 — What’s happening
+  </div>
+
+  <h2>
+    Live updates.
+  </h2>
+
+  <p>
+    School, work, projects, plans, wins, random life updates —
+    this is where Nengi keeps the internet posted.
+  </p>
+
+</section>
+
+
+<section
+  class="section"
+  id="anonymous"
+>
+
+  <div class="kicker">
+    02 — Anonymously
+  </div>
+
+  <h2>
+    Say it.
+  </h2>
+
+  <p>
+    No names. No pressure. Just words.
+  </p>
+
+  <form id="anonymousForm">
+
+    <div class="field">
+
+      <label for="message">
+        Your message
+      </label>
+
+      <textarea
+        id="message"
+        required
+        maxlength="2000"
+        placeholder="Write whatever you want to say..."
+      ></textarea>
+
+    </div>
+
+    <button
+      class="btn"
+      type="submit"
+    >
+      Send anonymously →
+    </button>
+
+    <div
+      class="notice"
+      id="messageNotice"
+    ></div>
+
+  </form>
+
+</section>
+
+
+<section
+  class="section"
+  id="says"
+>
+
+  <div class="kicker">
+    03 — Nengi says
+  </div>
+
+  <h2>
+    Still becoming.
+  </h2>
+
+  <p>
+    Thoughts, motivation, lessons, hot takes and whatever happens
+    to be occupying Nengi’s mind.
+  </p>
+
+</section>
+
+
+<section
+  class="section"
+  id="about"
+>
+
+  <div class="kicker">
+    04 — About
+  </div>
+
+  <h2>
+    The person behind NΞNGI.
+  </h2>
+
+  <p>
+    This page will hold Nengi’s story, interests, current era,
+    favourites and the little things that make her, her.
+  </p>
+
+</section>
+
+
+<section
+  class="section"
+  id="archive"
+>
+
+  <div class="kicker">
+    05 — Archive
+  </div>
+
+  <h2>
+    Nothing disappears.
+  </h2>
+
+  <p>
+    Past updates, milestones, thoughts and eras —
+    kept here so future Nengi can look back.
+  </p>
+
+</section>
+
+
+<section
+  class="section"
+  id="work"
+>
+
+  <div class="kicker">
+    06 — My work
+  </div>
+
+  <h2>
+    Things I’ve made.
+  </h2>
+
+  <p>
+    Designs, creative projects, ideas and work worth keeping.
+  </p>
+
+</section>
+
+
+<footer>
+
+  <div>
+    NΞNGI — Chief Nengi’s corner of the internet.
+  </div>
+
+  <div>
+    Still becoming.
+  </div>
+
+</footer>
+
 </div>
+
+
 <script>
-const form=document.getElementById('visitorForm');
-form.addEventListener('submit',e=>{
- e.preventDefault();
- const name=document.getElementById('name').value.trim();
- if(!document.getElementById('consent').checked){alert('Please confirm that you’re okay with Nengi keeping these details.');return}
- document.getElementById('visitorName').textContent=name;
- document.getElementById('welcome').classList.remove('hidden');
- document.getElementById('welcome').scrollIntoView({behavior:'smooth'});
+
+const SUPABASE_URL =
+"https://xxgtgguqhyzuczvcomqe.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_MdWQIsYhOqdSOYqh3ydZvA_x1exLJer";
+
+const db =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+
+function showNotice(element,message,success){
+
+  element.textContent = message;
+
+  element.className =
+    "notice " +
+    (success ? "success" : "error");
+
+  element.style.display = "block";
+
+}
+
+
+/* VISITOR REGISTRATION */
+
+document
+.getElementById("visitorForm")
+.addEventListener("submit",async function(event){
+
+  event.preventDefault();
+
+  const name =
+    document
+    .getElementById("name")
+    .value
+    .trim();
+
+  const email =
+    document
+    .getElementById("email")
+    .value
+    .trim() || null;
+
+  const notice =
+    document
+    .getElementById("visitorNotice");
+
+  if(!name){
+
+    return;
+
+  }
+
+  if(
+    !document
+    .getElementById("consent")
+    .checked
+  ){
+
+    showNotice(
+      notice,
+      "Please confirm that you’re okay with Nengi keeping these details.",
+      false
+    );
+
+    return;
+
+  }
+
+
+  const {error} =
+    await db
+    .from("visitors")
+    .insert({
+      name:name,
+      email:email
+    });
+
+
+  if(error){
+
+    console.error(error);
+
+    showNotice(
+      notice,
+      "We couldn't save your visit just now. Please try again.",
+      false
+    );
+
+    return;
+
+  }
+
+
+  document
+  .getElementById("visitorName")
+  .textContent = name;
+
+
+  document
+  .getElementById("welcome")
+  .classList
+  .remove("hidden");
+
+
+  document
+  .getElementById("welcome")
+  .scrollIntoView({
+    behavior:"smooth"
+  });
+
 });
+
+
+/* ANONYMOUS MESSAGES */
+
+document
+.getElementById("anonymousForm")
+.addEventListener("submit",async function(event){
+
+  event.preventDefault();
+
+  const message =
+    document
+    .getElementById("message")
+    .value
+    .trim();
+
+  const notice =
+    document
+    .getElementById("messageNotice");
+
+
+  if(!message){
+
+    return;
+
+  }
+
+
+  const {error} =
+    await db
+    .from("anonymous_messages")
+    .insert({
+      message:message
+    });
+
+
+  if(error){
+
+    console.error(error);
+
+    showNotice(
+      notice,
+      "Your message couldn't be sent. Please try again.",
+      false
+    );
+
+    return;
+
+  }
+
+
+  document
+  .getElementById("anonymousForm")
+  .reset();
+
+
+  showNotice(
+    notice,
+    "Message sent. No name was attached. 🖤",
+    true
+  );
+
+});
+
 </script>
+
 </body>
 </html>
