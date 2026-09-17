@@ -908,8 +908,7 @@ document
 
     showNotice(
       notice,
-      "We couldn't save your visit just now. Please try again.",
-      false
+      ""Database error: " + error.message,false
     );
 
     return;
